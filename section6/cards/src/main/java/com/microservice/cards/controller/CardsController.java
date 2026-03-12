@@ -2,6 +2,7 @@ package com.microservice.cards.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.cards.constants.CardsConstants;
+import com.microservice.cards.dto.CardsConfigDTO;
 import com.microservice.cards.dto.CardsDTO;
 import com.microservice.cards.dto.ResponseDto;
 import com.microservice.cards.entity.ErrorResponse;
@@ -42,6 +44,9 @@ public class CardsController {
 
 	@Autowired
     private CardsService iCardsService;
+	
+	@Autowired
+	private CardsConfigDTO cardsConfig;
 
     @Operation(
             summary = "Create Card REST API",
@@ -171,4 +176,32 @@ public class CardsController {
                     .body(new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
         }
     }
+    
+    @Operation(
+            summary = "Get Cards service contact Info",
+            description = "Card servive contact info"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+        })
+    @GetMapping("/contactInfo")
+    public ResponseEntity<CardsConfigDTO> getContactInfo(){
+		return ResponseEntity.status(HttpStatus.OK).body(cardsConfig);
+    	
+    }
+    
 }

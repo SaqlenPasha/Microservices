@@ -13,7 +13,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true  # Set to false in production
-
+  config:
+    import: 
+      - application_qa.yml
+      - application_prod.yml
+  profiles:
+    active:
+    - prod
 server:
  port: 8080
 # Optional: Logging configuration for database queries
@@ -21,5 +27,3 @@ logging:
   level:
     org.hibernate.SQL: DEBUG           # Set to INFO or WARN in production
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Set to INFO in production
-build:
-  version: 1

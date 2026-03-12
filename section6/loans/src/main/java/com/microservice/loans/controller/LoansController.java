@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.loans.constants.LoansConstants;
 import com.microservice.loans.dto.ErrorResponseDto;
+import com.microservice.loans.dto.LoansConfigDTO;
 import com.microservice.loans.dto.LoansDto;
 import com.microservice.loans.dto.ResponseDto;
 import com.microservice.loans.service.LoansService;
@@ -43,6 +44,10 @@ public class LoansController {
 
 	@Autowired
     private LoansService iLoansService;
+	
+    @Autowired
+    private LoansConfigDTO loansconfig;
+
 
     @Operation(
             summary = "Create Loan REST API",
@@ -170,6 +175,34 @@ public class LoansController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
         }
+    }
+    
+    
+    @Operation(
+            summary = "Get Cards service contact Info",
+            description = "Card servive contact info"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+        })
+    @GetMapping("/contactInfo")
+    public ResponseEntity<LoansConfigDTO> getContactInfo(){
+		return ResponseEntity.status(HttpStatus.OK).body(loansconfig);
+    	
     }
 
 	

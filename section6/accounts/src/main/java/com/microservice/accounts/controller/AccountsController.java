@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microservice.accounts.dto.AccountsConfigDTO;
 import com.microservice.accounts.dto.CustomerDTO;
 import com.microservice.accounts.dto.ErrorDetailsDTO;
 import com.microservice.accounts.dto.ResponseDTO;
@@ -36,6 +37,9 @@ public class AccountsController {
 	
 	@Value("${build.version}")
 	private String buildVersion;
+	
+	@Autowired
+	private AccountsConfigDTO accountsConfigDTO;
 
 	@Operation(summary = "Get Accounts Home", description = "API to get Accounts Home")
 	@ApiResponse(responseCode = "200", description = "Successfully retrieved Accounts Home")
@@ -85,6 +89,13 @@ public class AccountsController {
 	@GetMapping("/version")
 	public ResponseEntity<ResponseDTO> getVersion() {
 		return ResponseEntity.ok(new ResponseDTO("Success", "Accounts Microservice Version: " + buildVersion));
+	}
+	
+	@Operation(summary = "GET contact Info", description = "Contact Info Details")
+	@ApiResponse(responseCode = "200", description = "Successfully retrieved contact info")
+	@GetMapping("/contactInfo")
+	public ResponseEntity<AccountsConfigDTO> getContantInfo() {
+		return ResponseEntity.status(HttpStatus.OK).body(accountsConfigDTO);
 	}
 	
 
