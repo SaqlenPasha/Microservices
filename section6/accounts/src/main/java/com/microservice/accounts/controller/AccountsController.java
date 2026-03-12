@@ -1,6 +1,7 @@
 package com.microservice.accounts.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,9 @@ public class AccountsController {
 
 	@Autowired
 	private AccountsService accountsService;
+	
+	@Value("${build.version}")
+	private String buildVersion;
 
 	@Operation(summary = "Get Accounts Home", description = "API to get Accounts Home")
 	@ApiResponse(responseCode = "200", description = "Successfully retrieved Accounts Home")
@@ -75,5 +79,13 @@ public class AccountsController {
 		accountsService.deleteAccount(mobileNumber);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO("Success", "Account Deleted successfully"));
 	}
+	
+	@Operation(summary = "Get Build version", description = "API to get build version")
+	@ApiResponse(responseCode = "200", description = "Successfully retrieved build version")
+	@GetMapping("/version")
+	public ResponseEntity<ResponseDTO> getVersion() {
+		return ResponseEntity.ok(new ResponseDTO("Success", "Accounts Microservice Version: " + buildVersion));
+	}
+	
 
 }
