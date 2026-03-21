@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+build:
+  version: 1.0.0
+accounts:
+  message: "Welcome to EazyBank accounts related Prod APIs "
+  contactDetails:
+    name: "Saqlen - Developer"
+    email: "saqlen@eazybank.com"
+  onCallSupport:
+    - (555) 093-1234
+    - (555) 389-1345
