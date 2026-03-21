@@ -30,10 +30,10 @@ import io.swagger.v3.oas.annotations.info.License;
 									)
 					)
 			)
-public class CardsApplicatiom {
+public class CardsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CardsApplicatiom.class, args);
+		SpringApplication.run(CardsApplication.class, args);
 	}
 
 }

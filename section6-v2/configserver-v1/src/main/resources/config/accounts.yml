@@ -13,13 +13,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true  # Set to false in production
-  config:
-    import: 
-      - application_qa.yml
-      - application_prod.yml
-  profiles:
-    active:
-    - prod
 server:
  port: 8080
 # Optional: Logging configuration for database queries
