@@ -17,9 +17,6 @@ spring:
     import: 
       - application_qa.yml
       - application_prod.yml
-  profiles:
-    active:
-    - prod
 server:
  port: 8088
 # Optional: Logging configuration for database queries
@@ -27,3 +24,13 @@ logging:
   level:
     org.hibernate.SQL: DEBUG           # Set to INFO or WARN in production
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Set to INFO in production
+build:
+  version: 1.0.0
+accounts:
+  message: "Welcome to EazyBank accounts related Prod APIs "
+  contactDetails:
+    name: "Saqlen - Developer"
+    email: "saqlen@eazybank.com"
+  onCallSupport:
+    - (555) 093-1234
+    - (555) 389-1345

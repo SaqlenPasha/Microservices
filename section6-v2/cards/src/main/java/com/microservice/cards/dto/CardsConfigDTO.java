@@ -4,8 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.Data;
 
-@ConfigurationProperties(prefix="cards")
-public record CardsConfigDTO(String message, Map<String,String> contactDetails, List<String> onCallSupport) {
+@Data
+@ConfigurationProperties(prefix="accounts")
+public class CardsConfigDTO{
 
+	private String message;
+	private Map<String, String> contactDetails;
+	private List<String> onCallSupport;
+	
 }

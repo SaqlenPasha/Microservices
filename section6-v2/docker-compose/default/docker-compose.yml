@@ -1,0 +1,75 @@
+services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s 
+  config-server:
+    image: saqlenpasha1/configserver:v2
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    depends_on:
+      rabbit:
+         condition: service_healthy
+  accounts:
+    image: saqlenpasha1/accounts:v2
+    container_name: accounts
+    ports:
+      - "8080:8080"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+  cards:
+    image: saqlenpasha1/cards:v2
+    container_name: cards
+    ports:
+     - "9000:9000"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+  loans:
+    image: saqlenpasha1/loans:v2
+    container_name: loans
+    ports:
+     - "8090:8090"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+networks:
+  easybank:
+   driver: "bridge"

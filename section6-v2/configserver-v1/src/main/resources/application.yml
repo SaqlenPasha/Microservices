@@ -2,11 +2,40 @@ spring:
  application:
     name: config
  profiles:
-    active: native
+    active: git      # udr only for git
+#     active: native
  cloud:
     config:
       server:
-        native:
-         search-locations: classpath:/config
+#        native:
+#          search-locations: classpath:/config
+#         search-locations: "file://D:/SpringBootProjects/EazyBank-Microservices/config-server/src/main/resources/config"
+        git:
+          uri: "https://github.com/SaqlenPasha/config-server-repository"
+          default-label: master
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+ rabbitmq:
+    host: rabbit
+    port: 5672
+    username: "guest"
+    password: "guest"
+management:
+  endpoints:
+        web:
+            exposure:
+                include: "bus-refresh, monitor, health"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+encrypt:
+  key: "ThisIsASecretKeyforMyFirstMicroserviceApplication"
 server:
   port: 8071
